@@ -19,7 +19,6 @@ class OrdersController extends Controller
 
         $order = DB::transaction(function () use ($user, $request) {
             $address = UserAddress::find($request->input('address_id'));
-            Log::channel('single')->info('闻朋1', [$address]);
             $address->update(['last_used_at' => Carbon::now()]);
             // 创建一个订单
             $order   = new Order([
@@ -35,9 +34,7 @@ class OrdersController extends Controller
             // 订单关联到当前用户
             $order->user()->associate($user);
             // 写入数据库
-            Log::channel('single')->info('闻朋2', [$order]);
             $order->save();
-//            Log::channel('single')->info('闻朋3', [$items]);
 
             $totalAmount = 0;
             $items = $request->input('items');
