@@ -24,10 +24,10 @@ class AddCartRequest extends Request
                         return $fail('该商品未上架');
                     }
                     if ($sku->stock === 0) {
-                        $fail('该商品已售完');
+                        return $fail('该商品已售完');
                     }
                     if ($this->input('amount') > 0 && $sku->stock < $this->input('amount')) {
-                        $fail('该商品库存不足');
+                        return $fail('该商品库存不足');
                     }
                 },
             ],

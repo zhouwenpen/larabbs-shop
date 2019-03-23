@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddCartRequest;
+use App\Http\Requests\Request;
 use App\Models\CartItem;
+use App\Models\ProductSku;
 use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
@@ -26,10 +28,25 @@ class CartController extends Controller
 
             // 否则创建一个新的购物车记录
             $cart = new CartItem(['amount' => $amount]);
+//            Log::channel('single')->error($cart);
             $cart->user()->associate($user);
             $cart->productSku()->associate($skuId);
+//            Log::channel('single')->error($cart);
             $cart->save();
         }
+
+        return [];
+    }
+
+    public function index(Request $request)
+    {
+        $cartItems = $request->user()->cartItems()->with(['productSku.product'])->get();
+        return view('cart.index',['cartItems'=>$cartItems]);
+    }
+
+    public function remove(ProductSku $sku, Request $request)
+    {
+        $request->user()->cartItems()->where('product_sku_id',$sku->id)->delete();
 
         return [];
     }
