@@ -30,7 +30,7 @@ class QueryListener
         if (env('APP_ENV', 'production') == 'local') {
             $sql = str_replace("?", "'%s'", $event->sql);
             $log = vsprintf($sql, $event->bindings);
-            Log::channel()->error($log);
+            Log::channel('single')->error($log);
         }
     }
 }
