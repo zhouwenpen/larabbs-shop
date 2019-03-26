@@ -28,10 +28,8 @@ class CartController extends Controller
 
             // 否则创建一个新的购物车记录
             $cart = new CartItem(['amount' => $amount]);
-//            Log::channel('single')->error($cart);
             $cart->user()->associate($user);
             $cart->productSku()->associate($skuId);
-//            Log::channel('single')->error($cart);
             $cart->save();
         }
 
