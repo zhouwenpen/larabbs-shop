@@ -1,1 +1,1 @@
-基于Laravel的简易版商城
+基于Laravel的商城
